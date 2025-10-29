@@ -1,0 +1,78 @@
+# USASpending Production ETL Configuration
+
+# Data Download Configuration
+data_download:
+  enabled: true
+  start_date: "2025-09-01"  # Will be updated by scheduler
+  end_date: "2025-09-30"    # Will be updated by scheduler
+  output_dir: "raw_data"
+  groups: ["contracts"]
+  agencies: []  # Empty = all agencies
+  date_type: "action_date"
+  file_format: "parquet"
+
+# Data Processing Configuration  
+data_processing:
+  input_dir: "raw_data"
+  output_dir: "processed_data"
+  etl_config: "etl_config.yaml"
+  
+  # Filters to apply during processing
+  filters:
+    # fiscal_year_range: [2024, 2025]  # Uncomment to filter by fiscal year
+    # min_dollars_obligated: 1000      # Uncomment to filter by minimum amount
+    # instrument_types: ["DEFINITIVE CONTRACT", "DELIVERY ORDER"]  # Uncomment to filter by type
+    # agencies: ["Department of Defense"]  # Uncomment to filter by agency
+
+# Analysis Configuration
+analysis:
+  enabled: true
+  generate_summary: true
+  include_charts: false  # Set to true if matplotlib/seaborn available
+
+# Cleanup Configuration
+cleanup:
+  enabled: true
+  remove_raw_downloads: false  # Set to true to save disk space
+  archive_outputs: true
+  archive_dir: "archive"
+
+# Email Notification Configuration
+email:
+  enabled: false  # Set to true to enable email reports
+  smtp_server: "smtp.gmail.com"
+  smtp_port: 587
+  use_tls: true
+  username: "your-email@gmail.com"
+  password: "your-app-password"  # Use app password for Gmail
+  from_email: "your-email@gmail.com"
+  to_emails:
+    - "recipient1@company.com"
+    - "recipient2@company.com"
+  attach_reports: true
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file: "logs/etl_pipeline.log"
+
+# Results Storage
+results_dir: "results"
+
+# Scheduling Configuration (for reference)
+schedule:
+  # Daily at 2 AM
+  # 0 2 * * * /usr/bin/python3 /path/to/usaspending_production_etl.py --config /path/to/production_config.yaml
+  
+  # Weekly on Sunday at 2 AM with email
+  # 0 2 * * 0 /usr/bin/python3 /path/to/usaspending_production_etl.py --config /path/to/production_config.yaml --email-report
+  
+  # Monthly on 1st at 2 AM
+  # 0 2 1 * * /usr/bin/python3 /path/to/usaspending_production_etl.py --config /path/to/production_config.yaml
+
+# Environment-specific settings
+environment:
+  name: "production"  # production, staging, development
+  max_memory_gb: 8
+  max_runtime_hours: 4
+  retry_attempts: 3

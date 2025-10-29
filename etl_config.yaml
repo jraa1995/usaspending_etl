@@ -1,0 +1,100 @@
+# USASpending ETL Configuration
+
+# Column mapping from USASpending API fields to required output headers
+column_mapping:
+  action_date_fiscal_year: "Fiscal Year"
+  award_id_piid: "PIID"
+  awarding_agency_code: "AAC"
+  award_type: "Instrument Type"
+  parent_award_id_piid: "Referenced IDV PIID"
+  modification_number: "Modification Number"
+  action_date: "Date Signed"
+  period_of_performance_current_end_date: "Est. Ultimate Completion Date"
+  ordering_period_end_date: "Last Date to Order"
+  federal_action_obligation: "Dollars Obligated"
+  base_and_all_options_value: "Base and All Options Value (Total Contract Value)"
+  recipient_name: "Legal Business Name"
+  awarding_office_name: "Contracting Office Name"
+  funding_agency_name: "Funding Agency Name"
+  transaction_description: "Description of Requirement"
+  contracting_officers_determination_of_business_size: "Contracting Officers Business Size Determination"
+  c8a_program_participant: "Is Vendor Business Type - 8A Program Participant"
+  economically_disadvantaged_women_owned_small_business: "Is Vendor Business Type - Economically Disadvantaged Women-Owned Small Business"
+  historically_underutilized_business_zone_hubzone_firm: "Is Vendor Business Type - HUBZone Firm"
+  self_certified_small_disadvantaged_business: "Is Vendor Business Type - Self-Certified Small Disadvantaged Business"
+  service_disabled_veteran_owned_business: "Is Vendor Business Type - Service-Disabled Veteran-Owned Business"
+  veteran_owned_business: "Is Vendor Business Type - Veteran-Owned Business"
+  women_owned_small_business: "Is Vendor Business Type - Women-Owned Small Business"
+
+# Columns that might not exist in all datasets (optional)
+optional_columns:
+  - "ordering_period_end_date"
+  - "parent_award_id_piid"
+
+# Data type specifications
+data_types:
+  date_columns:
+    - "Date Signed"
+    - "Est. Ultimate Completion Date"
+    - "Last Date to Order"
+  
+  numeric_columns:
+    - "Fiscal Year"
+    - "Dollars Obligated"
+    - "Base and All Options Value (Total Contract Value)"
+  
+  boolean_columns:
+    - "Is Vendor Business Type - 8A Program Participant"
+    - "Is Vendor Business Type - Economically Disadvantaged Women-Owned Small Business"
+    - "Is Vendor Business Type - HUBZone Firm"
+    - "Is Vendor Business Type - Self-Certified Small Disadvantaged Business"
+    - "Is Vendor Business Type - Service-Disabled Veteran-Owned Business"
+    - "Is Vendor Business Type - Veteran-Owned Business"
+    - "Is Vendor Business Type - Women-Owned Small Business"
+  
+  text_columns:
+    - "PIID"
+    - "AAC"
+    - "Legal Business Name"
+    - "Contracting Office Name"
+    - "Funding Agency Name"
+    - "Description of Requirement"
+
+# Default filters
+default_filters:
+  # Minimum dollar threshold (optional)
+  # min_dollars_obligated: 1000
+  
+  # Fiscal year range (optional)
+  # fiscal_year_range: [2020, 2025]
+  
+  # Instrument types to include (optional)
+  # instrument_types: ["DEFINITIVE CONTRACT", "DELIVERY ORDER"]
+  
+  # Agencies to include (optional)
+  # agencies: ["Department of Defense", "Department of Agriculture"]
+
+# Data quality rules
+data_quality:
+  # Required fields that cannot be null
+  required_fields:
+    - "PIID"
+    - "Fiscal Year"
+    - "Legal Business Name"
+  
+  # Validation rules
+  validation_rules:
+    fiscal_year_range: [1990, 2030]
+    min_dollars_obligated: -999999999  # Allow negative values for deobligations
+    max_dollars_obligated: 999999999999
+
+# Output settings
+output:
+  # Default output format
+  format: "parquet"  # or "csv"
+  
+  # Include summary statistics
+  include_summary: true
+  
+  # Include data quality report
+  include_quality_report: true
