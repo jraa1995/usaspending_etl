@@ -45,27 +45,25 @@ python etl_dashboard.py
 
 ```
 usaspending_etl/
-├── 🚀 MAIN ORCHESTRATOR
-│   ├── usaspending_production_etl.py    # Main production orchestrator
-│   ├── schedule_etl.py                  # Scheduler helper with dynamic dates
-│   └── production_config.yaml           # Production configuration
+├── 🚀 MAIN FILES (Primary Usage)
+│   ├── schedule_etl.py                  # Main file for 90% of operations
+│   ├── etl_dashboard.py                 # Monitoring dashboard
+│   └── production_config.yaml           # Main configuration
 │
-├── 🔧 ETL COMPONENTS  
-│   ├── usaspending_pipeline.py          # Data download engine
+├── 🔧 CORE ENGINE FILES
+│   ├── usaspending_production_etl.py    # Production orchestrator
 │   ├── usaspending_etl_enhanced.py      # Data processing engine
+│   ├── usaspending_pipeline.py          # Data download engine
 │   ├── analyze_processed_data.py        # Analysis engine
 │   └── etl_config.yaml                  # ETL processing configuration
 │
-├── 📊 MONITORING & UTILITIES
-│   ├── etl_dashboard.py                 # Monitoring dashboard
-│   ├── final_demo.py                    # Results demonstration
+├── 🪟 WINDOWS UTILITIES
 │   └── run_daily_etl.bat               # Windows batch script
 │
 └── 📚 DOCUMENTATION
-    ├── COMPREHENSIVE_PROJECT_DOCUMENTATION.md  # Complete project docs
-    ├── PRODUCTION_DEPLOYMENT.md         # Deployment guide
-    ├── README_ETL.md                    # Detailed usage guide
-    └── ETL_SUMMARY.md                   # Technical summary
+    ├── README.md                        # This file
+    ├── HOW_TO_RUN.md                    # Step-by-step user guide
+    └── COMPREHENSIVE_PROJECT_DOCUMENTATION.md  # Complete project docs
 ```
 
 ## 📊 Data Output
@@ -197,10 +195,8 @@ python usaspending_production_etl.py --config production_config.yaml --dry-run
 
 ## 📚 Documentation
 
-- **[COMPREHENSIVE_PROJECT_DOCUMENTATION.md](COMPREHENSIVE_PROJECT_DOCUMENTATION.md)** - Complete project documentation with SOPs
-- **[PRODUCTION_DEPLOYMENT.md](PRODUCTION_DEPLOYMENT.md)** - Detailed deployment guide
-- **[README_ETL.md](README_ETL.md)** - Comprehensive usage documentation
-- **[ETL_SUMMARY.md](ETL_SUMMARY.md)** - Technical implementation summary
+- **[HOW_TO_RUN.md](HOW_TO_RUN.md)** - **START HERE** - Step-by-step guide to run the system
+- **[COMPREHENSIVE_PROJECT_DOCUMENTATION.md](COMPREHENSIVE_PROJECT_DOCUMENTATION.md)** - Complete project documentation with SOPs and technical details
 
 ## 🔧 Development
 
