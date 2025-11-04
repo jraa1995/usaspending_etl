@@ -47,15 +47,39 @@ class ETLScheduler:
     
     def load_config(self) -> dict:
         """Load the base configuration."""
-        with open(self.config_path, 'r') as f:
-            return yaml.safe_load(f)
+        try:
+            if not self.config_path.exists():
+                print(f"❌ Configuration file not found: {self.config_path}")
+                print(f"Current directory: {Path.cwd()}")
+                print("Available files:")
+                for file in Path.cwd().glob("*.yaml"):
+                    print(f"  - {file.name}")
+                sys.exit(1)
+            
+            with open(self.config_path, 'r') as f:
+                config = yaml.safe_load(f)
+                
+            if config is None:
+                print(f"❌ Configuration file is empty or invalid: {self.config_path}")
+                sys.exit(1)
+                
+            return config
+            
+        except yaml.YAMLError as e:
+            print(f"❌ YAML syntax error in {self.config_path}:")
+            print(f"   {str(e)}")
+            sys.exit(1)
+        except Exception as e:
+            print(f"❌ Error loading configuration from {self.config_path}:")
+            print(f"   {str(e)}")
+            sys.exit(1)
     
     def calculate_date_range(self, mode: str, backfill_days: int = 30) -> tuple:
         """Calculate start and end dates based on mode."""
         today = datetime.now().date()
         
         if mode == 'daily':
-            # Yesterday's data
+            # Yesterday's data (T-1)
             start_date = today - timedelta(days=1)
             end_date = start_date
         elif mode == 'weekly':
@@ -79,6 +103,9 @@ class ETLScheduler:
                             email_report: bool = False) -> Path:
         """Create a runtime configuration with updated dates."""
         # Create a copy of the base config
+        if self.base_config is None:
+            raise RuntimeError("Base configuration is None - configuration file failed to load")
+        
         runtime_config = self.base_config.copy()
         
         # Update dates

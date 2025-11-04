@@ -3,13 +3,13 @@
 # Data Download Configuration
 data_download:
   enabled: true
-  start_date: "2025-09-01"  # Will be updated by scheduler
-  end_date: "2025-09-30"    # Will be updated by scheduler
+  start_date: "2024-09-01"  # Will be updated by scheduler
+  end_date: "2024-09-30"    # Will be updated by scheduler
   output_dir: "raw_data"
   groups: ["contracts"]
   agencies: []  # Empty = all agencies
   date_type: "action_date"
-  file_format: "parquet"
+  file_format: "csv"
 
 # Data Processing Configuration  
 data_processing:
@@ -59,16 +59,13 @@ logging:
 # Results Storage
 results_dir: "results"
 
-# Scheduling Configuration (for reference)
-schedule:
-  # Daily at 2 AM
-  # 0 2 * * * /usr/bin/python3 /path/to/usaspending_production_etl.py --config /path/to/production_config.yaml
-  
-  # Weekly on Sunday at 2 AM with email
-  # 0 2 * * 0 /usr/bin/python3 /path/to/usaspending_production_etl.py --config /path/to/production_config.yaml --email-report
-  
-  # Monthly on 1st at 2 AM
-  # 0 2 1 * * /usr/bin/python3 /path/to/usaspending_production_etl.py --config /path/to/production_config.yaml
+# Google Drive Integration
+google_drive:
+  enabled: false  # Set to true to enable Google Drive uploads
+  service_account_file: "path/to/service-account-key.json"  # Path to service account JSON
+  folder_id: ""  # Optional: Google Drive folder ID to upload to
+  upload_formats: ["parquet", "csv"]  # Which formats to upload
+  create_google_sheets: true  # Also create Google Sheets from CSV data
 
 # Environment-specific settings
 environment:

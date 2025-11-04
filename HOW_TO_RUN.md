@@ -6,18 +6,29 @@ This guide provides clear, step-by-step instructions for running the USASpending
 
 | What You Want to Do | File to Run | Command |
 |---------------------|-------------|---------|
-| **Daily automated run** | `schedule_etl.py` | `python schedule_etl.py --config production_config.yaml --mode daily` |
-| **Test the system** | `schedule_etl.py` | `python schedule_etl.py --config production_config.yaml --mode daily --dry-run` |
+| **Daily automated run (T-1)** | `schedule_etl_with_drive.py` | `python schedule_etl_with_drive.py --config production_config.yaml --mode daily` |
+| **Daily run + Google Drive** | `schedule_etl_with_drive.py` | `python schedule_etl_with_drive.py --config production_config.yaml --mode daily --upload-to-drive` |
+| **Test the system** | `schedule_etl_with_drive.py` | `python schedule_etl_with_drive.py --config production_config.yaml --mode daily --dry-run` |
 | **Monitor pipeline** | `etl_dashboard.py` | `python etl_dashboard.py` |
-| **Custom date range** | `schedule_etl.py` | `python schedule_etl.py --start-date 2025-09-01 --end-date 2025-09-30` |
-| **See results demo** | `final_demo.py` | `python final_demo.py` |
+| **Custom date range** | `schedule_etl_with_drive.py` | `python schedule_etl_with_drive.py --start-date 2025-11-02 --end-date 2025-11-02` |
+| **Process existing data** | `usaspending_etl_enhanced.py` | `python usaspending_etl_enhanced.py --input-dir raw_data --output-dir processed_data` |
 
 ## 🚀 Getting Started (First Time Setup)
 
 ### Step 1: Install Dependencies
+
+**Option A: Install from requirements file (Recommended)**
+```bash
+# Make sure your virtual environment is activated
+pip install -r requirements.txt
+```
+
+**Option B: Install individually**
 ```bash
 pip install pandas pyarrow pyyaml httpx backoff
 ```
+
+**Note**: If using a virtual environment (recommended), make sure it's activated before installing dependencies.
 
 ### Step 2: Test Your Setup
 ```bash

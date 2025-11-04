@@ -247,8 +247,17 @@ class EnhancedUSASpendingETL:
         if df.empty:
             return df
         
+        # Check if config is loaded properly
+        if self.config is None:
+            logger.error("Configuration is None - cannot apply filters")
+            return df
+        
+        # Debug logging
+        logger.debug(f"Config type: {type(self.config)}")
+        logger.debug(f"Config keys: {list(self.config.keys()) if isinstance(self.config, dict) else 'Not a dict'}")
+        
         # Combine default and custom filters
-        default_filters = self.config.get('default_filters', {})
+        default_filters = self.config.get('default_filters', {}) if self.config else {}
         filters = default_filters.copy() if default_filters else {}
         if custom_filters:
             filters.update(custom_filters)
